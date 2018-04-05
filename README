@@ -1,0 +1,9 @@
+Write a script which accepts HTTP calls to Start, stop and cleanup browsers. Each of the operations should be different methods. Proxy setttings should be configurable. It should also take url as optional parameter. It should be done in ruby.
+
+Create a server which would entertain start, stop and cleanup of browsers.
+Which browsers?
+What does cleanup include?
+Any structure for the proxy settings?
+So no default url needs to be opened?
+
+start -> start the browser on the server?
