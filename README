@@ -38,3 +38,7 @@ ENDPOINTS
 
 /proxy/unset
 	Unsets the proxy setting if any.
+
+Setup:
+ bundle install
+ bundle exec ruby server.rb
