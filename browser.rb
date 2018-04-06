@@ -12,8 +12,8 @@ module Browser
   end
 
   def kill(browser)
-    puts "pkill -a \"#{BROWSER_EXEC[browser]}\""
-    system("pkill -a \"#{BROWSER_EXEC[browser]}\"")
+    puts "pkill -a -i \"#{BROWSER_EXEC[browser]}\""
+    system("pkill -a -i \"#{BROWSER_EXEC[browser]}\"")
   end
 
   def cleanup(browser)
