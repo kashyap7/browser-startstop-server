@@ -30,8 +30,9 @@ module Browser
     :safari => "safari",
     :chrome => "Google\ Chrome"
   }
-  def spawn_browser(which_browser)
-    system("open -a \"#{BROWSER_EXEC[which_browser.downcase.intern]}\"")
+  def spawn(browser, url)
+    puts "open -a \"#{BROWSER_EXEC[browser]}\" #{url}"
+    system("open -a \"#{BROWSER_EXEC[browser]}\" #{url}")
     # case which_browser.downcase
     # when "firefox"
     #   Firefox::start
@@ -43,7 +44,13 @@ module Browser
     #   return ""
     # end
   end
-  def kill_browser(which_browser)
-    system("pkill -a \"#{BROWSER_EXEC[which_browser.downcase.intern]}\"")
+
+  def kill(browser)
+    system("pkill -a \"#{BROWSER_EXEC[browser]}\"")
+  end
+
+  def cleanup(browser)
+    puts "#{BROWSER_EXEC[browser]}-cleanup.sh"
+    system("./#{BROWSER_EXEC[browser]}-cleanup.sh")
   end
 end
