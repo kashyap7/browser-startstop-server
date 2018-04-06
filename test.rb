@@ -4,4 +4,5 @@ print output.class
 print "\n"
 #puts system("open -a safari")
 #puts `open -a 'Google\ Chrome'`
-puts system("./test.sh")
+output = system("./test.sh")
+puts output.class

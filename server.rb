@@ -1,6 +1,7 @@
 
 require 'sinatra'
 require_relative 'browser.rb'
+require_relative 'proxy.rb'
 
 set :port, 9494
 
@@ -26,7 +27,7 @@ def sanitize_browser_string(browser)
   end
 end
 
-post '/start' do
+post '/browser/start' do
   browser_config = json_params
   puts browser_config['browser']
 
@@ -46,7 +47,7 @@ post '/start' do
   end
 end
 
-post '/stop/:browser' do |browser|
+post '/browser/stop/:browser' do |browser|
   browser_sym = sanitize_browser_string(browser)
 
   if browser_sym
@@ -60,7 +61,7 @@ post '/stop/:browser' do |browser|
   end
 end
 
-post '/cleanup/:browser' do |browser|
+post '/browser/cleanup/:browser' do |browser|
   browser_sym = sanitize_browser_string(browser)
 
   if browser_sym
@@ -74,10 +75,17 @@ post '/cleanup/:browser' do |browser|
   end
 end
 
-post '/set-proxy' do
+post '/proxy/set' do
   proxy_config = json_params
-  puts "networksetup -setwebproxy Wi-Fi #{proxy_config['host']} #{proxy_config['port']}"
-  if system("networksetup -setwebproxy Wi-Fi #{proxy_config['host']} #{proxy_config['port']}")
+  if Proxy::set(proxy_config)
+    status 200
+  else
+    status 404
+  end
+end
+
+put '/proxy/unset' do
+  if Proxy::unset
     status 200
   else
     status 404

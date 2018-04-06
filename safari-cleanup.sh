@@ -1,3 +1,4 @@
+
 #!/bin/bash -x
 mv ~/Library/Safari ~/Desktop/Safari-`date +%Y%m%d%H%M%S`
 rm -Rf ~/Library/Caches/Apple\ -\ Safari\ -\ Safari\ Extensions\ Gallery

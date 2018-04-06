@@ -2,8 +2,39 @@ Write a script which accepts HTTP calls to Start, stop and cleanup browsers. Eac
 
 Create a server which would entertain start, stop and cleanup of browsers.
 Which browsers?
+	- chrome
+	- safari
+	- firefox
 What does cleanup include?
-Any structure for the proxy settings?
-So no default url needs to be opened?
+Ideally a cleanup involves clearing the 
+	- History
+	- Cache
+	- Preferences
+	- Well the objective is have the start post a cleanup to fetch a freshly installed firefox
+Proxy - I have added an endpoint to set/unset the proxy setting instead of clubbing it with the start endpoint
 
-start -> start the browser on the server?
+ENDPOINTS
+
+/browser/start
+	Launches the 'browser' supplied in the input with the optional 'url', currently only support chrome/firefox/safari
+	e.g, 
+	{
+		"browser" : "firefox",
+		"url" : "http://www.google.com"
+	}
+
+/browser/stop/:browser
+	Kills the ":browser" supplied
+
+/browser/cleanup/:browser
+	Clears the various setting for the ":browser" supplied
+
+/proxy/set
+	Set the proxy settings on the server/terminal where the browser instance would be launched
+	{
+		"host" : "localhost",
+		"port" : "80"
+	}
+
+/proxy/unset
+	Unsets the proxy setting if any.

@@ -1,2 +1,1 @@
-
-echo $TEST
+networksetup -setwebporoxy localhost 80 off
