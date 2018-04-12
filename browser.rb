@@ -1,11 +1,10 @@
-
-module Browser
-  extend self
+class MacBrowser
   BROWSER_EXEC = {
     :firefox => "firefox",
     :safari => "safari",
     :chrome => "Google\ Chrome"
   }
+  # def check_browser()
   def spawn(browser, url)
     puts "open -a \"#{BROWSER_EXEC[browser]}\" #{url}"
     system("open -a \"#{BROWSER_EXEC[browser]}\" #{url}")

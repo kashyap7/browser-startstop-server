@@ -2,10 +2,18 @@
 require 'sinatra'
 require_relative 'browser.rb'
 require_relative 'proxy.rb'
+require_relative 'OS.rb'
+set :port, 9490
 
-set :port, 9494
 
 SUPPORTED_BROWSERS = ["chrome", "firefox", "safari"]
+def browser_factory
+  if OS.mac?
+    return MacBrowser.new
+  end
+end
+
+BROWSER = browser_factory
 
 before do
   content_type 'application/json'
@@ -37,7 +45,7 @@ post '/browser/start' do
     url = browser_config.has_key?("url") ? browser_config['url'] : ""
     puts url.class
     puts browser_config.class
-    if Browser::spawn(browser_sym, url)
+    if BROWSER::spawn(browser_sym, url)
       status 200
     else
       status 404
@@ -51,7 +59,7 @@ post '/browser/stop/:browser' do |browser|
   browser_sym = sanitize_browser_string(browser)
 
   if browser_sym
-    if Browser::kill(browser_sym)
+    if BROWSER::kill(browser_sym)
       status 200
     else
       status 404
@@ -65,7 +73,7 @@ post '/browser/cleanup/:browser' do |browser|
   browser_sym = sanitize_browser_string(browser)
 
   if browser_sym
-    if Browser::cleanup(browser_sym)
+    if BROWSER::cleanup(browser_sym)
       status 200
     else
       status 404
