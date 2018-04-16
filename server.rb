@@ -5,11 +5,11 @@ require_relative 'proxy.rb'
 require_relative 'OS.rb'
 set :port, 9490
 
-
-SUPPORTED_BROWSERS = ["chrome", "firefox", "safari"]
 def browser_factory
   if OS.mac?
-    return MacBrowser.new
+    return MacBrowser
+  elsif OS.windows?
+    return WindowBrowser
   end
 end
 
@@ -27,19 +27,11 @@ def json_params
   end
 end
 
-def sanitize_browser_string(browser)
-  if SUPPORTED_BROWSERS.include? browser.downcase
-    return browser.downcase.intern
-  else
-    return false
-  end
-end
-
 post '/browser/start' do
   browser_config = json_params
   puts browser_config['browser']
-
-  browser_sym = sanitize_browser_string(browser_config['browser'])
+  # puts ENV['PATH']
+  browser_sym = BROWSER::clean_browser_string(browser_config['browser'])
   if browser_sym
     puts browser_config.is_a? Hash
     url = browser_config.has_key?("url") ? browser_config['url'] : ""
@@ -56,7 +48,7 @@ post '/browser/start' do
 end
 
 post '/browser/stop/:browser' do |browser|
-  browser_sym = sanitize_browser_string(browser)
+  browser_sym = BROWSER::clean_browser_string(browser)
 
   if browser_sym
     if BROWSER::kill(browser_sym)
@@ -70,7 +62,7 @@ post '/browser/stop/:browser' do |browser|
 end
 
 post '/browser/cleanup/:browser' do |browser|
-  browser_sym = sanitize_browser_string(browser)
+  browser_sym = BROWSER::clean_browser_string(browser)
 
   if browser_sym
     if BROWSER::cleanup(browser_sym)
