@@ -61,6 +61,8 @@ module WindowBrowser
   end
 
   def cleanup(browser)
+
+    # We kill the browser before we cleanup, as cleanup is not possible while the files are still in use.
     kill(browser)
 
     puts "#{BROWSER_EXEC[browser]}.bat"
