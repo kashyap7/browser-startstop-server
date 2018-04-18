@@ -1,5 +1,6 @@
 #TODO : Make all the functions class functions 
 require 'open5'
+require 'open3'
 module MacBrowser
   extend self
   BROWSER_EXEC = {
@@ -28,7 +29,7 @@ module MacBrowser
 
   def cleanup(browser)
     puts "#{BROWSER_EXEC[browser]}-cleanup.sh"
-    system("./#{BROWSER_EXEC[browser]}-cleanup.sh")
+    system("./mac/#{BROWSER_EXEC[browser]}-cleanup.sh")
   end
 end
 
@@ -43,15 +44,16 @@ module WindowBrowser
   def clean_browser_string(browser)
     if BROWSER_EXEC.include? browser.downcase.intern
       return browser.downcase.intern
-    else
+    elsusing 
       return false
     end
   end
 
   def spawn(browser, url)
+    # the server does not get the control back with the system command
     puts "#{BROWSER_EXEC[browser]} #{url}"
-    system("#{BROWSER_EXEC[browser]} #{url}")
-    #puts open5("firefox")
+    stdout, stderr, status = open5("#{BROWSER_EXEC[browser]} #{url}")
+    status
   end
 
   def kill(browser)
@@ -66,6 +68,6 @@ module WindowBrowser
     kill(browser)
 
     puts "#{BROWSER_EXEC[browser]}.bat"
-    system("./#{BROWSER_EXEC[browser]}.bat")
+    system("./windows/#{BROWSER_EXEC[browser]}.bat")
   end
 end

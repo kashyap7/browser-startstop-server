@@ -3,7 +3,7 @@ require 'sinatra'
 require_relative 'browser.rb'
 require_relative 'proxy.rb'
 require_relative 'OS.rb'
-set :port, 9490
+set :port, 9499
 
 def browser_factory
   if OS.mac?
